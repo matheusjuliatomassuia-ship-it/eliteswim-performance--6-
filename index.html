@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EliteSwim Performance</title>
+
+    <link rel="icon" type="image/jpeg" href="/Logo Oficial do Elite Swim.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              background: '#020617',
+              surface: '#0f172a',
+              primary: '#0ea5e9',
+              primaryDark: '#0369a1',
+              accent: '#f2ff00',
+              danger: '#f43f5e',
+              success: '#10b981',
+              accentGlow: '#00f2ff',
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+
+    <script type="importmap">
+    {
+      "imports": {
+        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0",
+        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+        "recharts": "https://aistudiocdn.com/recharts@^3.5.1",
+        "react/": "https://aistudiocdn.com/react@^19.2.1/",
+        "react": "https://aistudiocdn.com/react@^19.2.1",
+        "recharts/": "https://aistudiocdn.com/recharts@^3.5.1/"
+      }
+    }
+    </script>
+
+    <style>
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #020617; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1e293b; 
+        border-radius: 10px;
+      }
+      
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #020617;
+        color: #f1f5f9;
+      }
+      
+      .hud-card {
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(2, 6, 23, 0.8) 100%);
+        border: 1px solid rgba(14, 165, 233, 0.1);
+        backdrop-filter: blur(8px);
+      }
+      
+      .neon-text {
+        text-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+      }
+
+      @keyframes jump-once {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+      }
+      .animate-jump-once {
+        animation: jump-once 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+      }
+    </style>
+    <link rel="stylesheet" href="/index.css">
+  </head>
+  <body class="bg-background text-slate-100 antialiased">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

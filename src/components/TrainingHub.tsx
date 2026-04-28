@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { PlannedSession, WorkoutPlan, PoolWorkoutStructure, PoolSet, PoolIntensity, PoolEquipment, Preventive, AthleteProfile, Group, GymLog } from '../types';
+import { PlannedSession, WorkoutPlan, PoolWorkoutStructure, PoolSet, PoolIntensity, PoolEquipment, Preventive, AthleteProfile, Group, GymLog } from '../../types';
 import GymTraining from './GymTraining';
 import { Waves, Dumbbell, Activity, ShieldPlus, Plus, Trash2, Save, X, Target, ArrowRight, ClipboardCheck, Link as LinkIcon, Users, User, Send, History, Calendar, CheckCircle2, ChevronRight, LayoutList, Filter, ToggleLeft, ToggleRight, Archive, AlertTriangle, RefreshCw } from 'lucide-react';
 

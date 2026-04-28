@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { OFFICIAL_INDICES_DATA } from '../constants/indicesData';
+import { OFFICIAL_INDICES_DATA } from '../../constants/indicesData';
 import { Anchor, Waves, Calendar, CheckCircle2, ChevronRight } from 'lucide-react';
 
 const PetizTable: React.FC = () => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PhysicalAssessment, AthleteProfile } from '../types';
+import { PhysicalAssessment, AthleteProfile } from '../../types';
 import { Ruler, Weight, User, Calendar, Save, Trash2, Plus, ArrowRight, ClipboardList, Activity, Zap, TrendingUp, Info, X } from 'lucide-react';
 
 interface AssessmentsProps {

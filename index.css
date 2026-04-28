@@ -1,3 +1,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Configurações globais de estilo */
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --primary: 199 89% 48%;
+  }
+
+  body {
+    @apply bg-[#020617] text-slate-100 antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Componentes personalizados para o EliteSwim */
+@layer components {
+  .hud-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(2, 6, 23, 0.8) 100%);
+    border: 1px solid rgba(14, 165, 233, 0.1);
+    @apply backdrop-blur-md shadow-lg;
+  }
+
+  .neon-text {
+    text-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+  }
+
+  .glass-panel {
+    @apply bg-white/5 backdrop-blur-sm border border-white/10;
+  }
+}
+
+/* Estilização da barra de rolagem (Scrollbar) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0ea5e9; 
+}
+
+/* Animações customizadas */
+@keyframes jump-once {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-jump-once {
+  animation: jump-once 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}

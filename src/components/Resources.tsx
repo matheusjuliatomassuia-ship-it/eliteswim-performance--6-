@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Resource, ResourceType } from '../types';
+import { Resource, ResourceType } from '../../types';
 import { BookOpen, Film, BrainCircuit, ExternalLink, Clock, List, Plus, X, Save, Trash2, Link as LinkIcon, Edit3, Youtube, Music, Eye } from 'lucide-react';
 
 interface ResourcesProps {

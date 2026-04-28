@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
-import { SwimTime, Course, AthleteProfile, Group, Stroke } from '../types';
-import { timeToSeconds } from '../constants';
+import { SwimTime, Course, AthleteProfile, Group, Stroke } from '../../types';
+import { timeToSeconds } from '../../constants';
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, AreaChart, Area } from 'recharts';
 import { Trophy, Timer, Plus, X, Zap, Save, BarChart3, MapPin, Trash2, AlertTriangle, Maximize2 } from 'lucide-react';
 

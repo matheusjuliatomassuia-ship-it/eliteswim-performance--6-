@@ -1,10 +1,10 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { DailyMetric, AthleteProfile, Group, Competition } from '../types';
+import { DailyMetric, AthleteProfile, Group, Competition } from '../../types';
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
 import { Activity, Battery, Moon, TrendingUp, Shield, Medal, Target, Zap, Clock } from 'lucide-react';
-import { getCoachingInsight } from '../services/geminiService';
-import { MOCK_TIMES } from '../constants';
+import { getCoachingInsight } from '../../services/geminiService';
+import { MOCK_TIMES } from '../../constants';
 
 interface DashboardProps {
   metrics: DailyMetric[];

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Note, NoteCategory } from '../types';
-import { MOCK_NOTES } from '../constants';
+import { Note, NoteCategory } from '../../types';
+import { MOCK_NOTES } from '../../constants';
 import { Plus, Trash2, Calendar, StickyNote } from 'lucide-react';
 
 const Notes: React.FC = () => {

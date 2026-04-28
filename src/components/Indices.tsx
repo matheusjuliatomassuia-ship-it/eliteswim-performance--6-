@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { OFFICIAL_INDICES_DATA } from '../constants/indicesData';
+import { OFFICIAL_INDICES_DATA } from '../../constants/indicesData';
 import { Table as TableIcon, Award, Calendar, CheckCircle2, Waves, Anchor } from 'lucide-react';
 
 const CBDA_COLS_METADATA = [

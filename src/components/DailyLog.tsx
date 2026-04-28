@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { DailyMetric } from "../types";
-import { URINE_COLORS } from "../constants";
+import { DailyMetric } from "../../types";
+import { URINE_COLORS } from "../../constants";
 import {
   Smile,
   Battery,

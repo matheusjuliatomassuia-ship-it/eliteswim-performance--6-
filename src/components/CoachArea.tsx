@@ -1,7 +1,7 @@
 
 import React, { useMemo, useState } from 'react';
-import { DailyMetric, AthleteProfile } from '../types';
-import { URINE_COLORS } from '../constants';
+import { DailyMetric, AthleteProfile } from '../../types';
+import { URINE_COLORS } from '../../constants';
 import { Activity, HeartPulse, Flame, Thermometer, ClipboardX, User, Users, LayoutGrid, Layers, MessageSquare } from 'lucide-react';
 
 interface CoachAreaProps { metrics: DailyMetric[]; athletes?: AthleteProfile[]; }

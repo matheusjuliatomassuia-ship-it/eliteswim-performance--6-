@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Paperclip, Image, MoreVertical, Search, Phone, Video, Users, User, UserPlus, X, Share2, Link, FileText, Activity, CheckSquare, Square, Plus, Trash2, Edit2, Check } from 'lucide-react';
-import { ChatMessage, ChatContact } from '../types';
+import { ChatMessage, ChatContact } from '../../types';
 
 interface TeamChatProps {
   messages: Record<string, ChatMessage[]>;

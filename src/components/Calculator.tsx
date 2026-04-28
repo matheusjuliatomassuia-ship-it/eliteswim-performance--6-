@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
-import { timeToSeconds } from '../constants';
-import { OFFICIAL_INDICES_DATA } from '../constants/indicesData';
+import { timeToSeconds } from '../../constants';
+import { OFFICIAL_INDICES_DATA } from '../../constants/indicesData';
 import { Timer, Target, CheckCircle2, AlertCircle } from 'lucide-react';
 
 const Calculator: React.FC = () => {

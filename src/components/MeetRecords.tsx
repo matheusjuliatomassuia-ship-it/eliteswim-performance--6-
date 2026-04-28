@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import { MeetRecord, AthleteProfile, AthleteEntry, Split, SwimTime, Course, Stroke, Group } from '../types';
+import { MeetRecord, AthleteProfile, AthleteEntry, Split, SwimTime, Course, Stroke, Group } from '../../types';
 import { Trophy, Calendar, MapPin, Plus, Save, Trash2, X, ChevronDown, ChevronUp, User, List, Clock, Waves, Sparkles, CheckCircle2, Filter, CheckSquare, Square, Anchor, AlertTriangle } from 'lucide-react';
-import { timeToSeconds, MOCK_GROUPS, normalizeSwimTime } from '../constants';
+import { timeToSeconds, MOCK_GROUPS, normalizeSwimTime } from '../../constants';
 
 interface MeetRecordsProps {
   records: MeetRecord[];

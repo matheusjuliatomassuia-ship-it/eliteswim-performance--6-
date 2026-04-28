@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import { Competition, Strategy, Group } from '../types';
+import { Competition, Strategy, Group } from '../../types';
 import { Calendar, MapPin, Target, Zap, Plus, Save, Trash2, X, ChevronRight, Edit3, Award, Users, Repeat, MessageSquare, User, List, Flag, Clock, CheckSquare, Square, FileText, AlertTriangle } from 'lucide-react';
-import { MOCK_GROUPS } from '../constants';
+import { MOCK_GROUPS } from '../../constants';
 
 interface StrategyProps {
   competitions: Competition[];

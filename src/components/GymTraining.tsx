@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { GymLog, WorkoutPlan, AthleteProfile, Group, WorkoutExercise, GymSetLog } from '../types';
+import { GymLog, WorkoutPlan, AthleteProfile, Group, WorkoutExercise, GymSetLog } from '../../types';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, BarChart, Bar } from 'recharts';
 import { Dumbbell, TrendingUp, Plus, Users, FilePlus, Save, Trash2, Calendar, ClipboardCheck, Info, User, Filter, Layers, PencilLine, Video, PlayCircle, Archive, CheckCircle2, History, Scale, ChevronRight, ToggleLeft, ToggleRight, CheckSquare, Square, Zap, Activity, Link as LinkIcon, Loader2, Send } from 'lucide-react';
 

@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import { PlannedSession, DailyMetric, Group } from '../types';
+import { PlannedSession, DailyMetric, Group } from '../../types';
 import { Calendar, Trash2, Copy, Save, ChevronLeft, ChevronRight, User, Plus, Users, ArrowRightLeft, AlertCircle, BarChart3, CheckCircle2, CheckSquare, Square, RefreshCcw } from 'lucide-react';
-import { MOCK_GROUPS, MOCK_ATHLETE_PROFILES } from '../constants';
+import { MOCK_GROUPS, MOCK_ATHLETE_PROFILES } from '../../constants';
 
 interface PlanningProps {
   plans: PlannedSession[];

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { BiomechanicsAnalysis, AthleteProfile, Stroke, DrawingData } from '../types';
-import { saveVideoLocal, getVideoLocal } from '../services/videoStorage';
+import { BiomechanicsAnalysis, AthleteProfile, Stroke, DrawingData } from '../../types';
+import { saveVideoLocal, getVideoLocal } from '../../services/videoStorage';
 import { 
   Video, Plus, Trash2, X, Save, UploadCloud, Play, Pause, 
   RotateCw, Timer, Scissors, Eraser, 

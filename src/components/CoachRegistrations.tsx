@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { AthleteProfile, Group, WorkoutDefinition } from '../types';
+import { AthleteProfile, Group, WorkoutDefinition } from '../../types';
 import { User, Users, Activity, Plus, Search, Edit2, Trash2, ArrowLeft, Save, CheckCircle, Eye, Link as LinkIcon, AlertTriangle, X } from 'lucide-react';
 
 interface CoachRegistrationsProps {

@@ -1,9 +1,9 @@
 
 import React, { useState, useMemo } from 'react';
-import { BodyComposition, DailyMetric, PlannedSession, AthleteProfile, Group } from '../types';
+import { BodyComposition, DailyMetric, PlannedSession, AthleteProfile, Group } from '../../types';
 import { ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ComposedChart, Bar, Line } from 'recharts';
 import { Activity, BarChart2, TrendingUp, Moon, Zap, Brain, Smile, Droplets, Flame, ShieldAlert, Filter, User, Calendar, Table as TableIcon, ClipboardCheck, HeartPulse, Users, LayoutGrid, Layers, ChevronDown, Battery, Maximize2, X, BarChart3, MessageSquare } from 'lucide-react';
-import { URINE_COLORS } from '../constants';
+import { URINE_COLORS } from '../../constants';
 
 interface MonitoringProps {
   data: BodyComposition[];

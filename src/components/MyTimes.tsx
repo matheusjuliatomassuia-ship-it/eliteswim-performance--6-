@@ -3,9 +3,9 @@ import React, { useState, useMemo } from 'react';
 import { 
   Trophy, Save, Waves, Activity, CheckCircle2, Calendar, Edit2, Zap, User, Info
 } from 'lucide-react';
-import { timeToSeconds } from '../constants';
-import { AthleteProfile, Course, SwimTime, Stroke } from '../types';
-import { OFFICIAL_INDICES_DATA } from '../constants/indicesData';
+import { timeToSeconds } from '../../constants';
+import { AthleteProfile, Course, SwimTime, Stroke } from '../../types';
+import { OFFICIAL_INDICES_DATA } from '../../constants/indicesData';
 
 interface MyTimesProps {
   data: Record<string, Record<string, Record<string, string>>>;

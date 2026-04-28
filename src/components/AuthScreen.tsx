@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { ArrowRight, Waves, Trophy, ClipboardList, AlertCircle, Eye, EyeOff } from 'lucide-react';
-import { UserRole } from '../types';
+import { UserRole } from '../../types';
 
 interface AuthScreenProps {
   onLogin: (email: string, role: UserRole, name?: string, password?: string) => void;

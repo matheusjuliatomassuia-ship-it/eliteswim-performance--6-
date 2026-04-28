@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { User, Mail, Shield, Award, MapPin, Camera, KeyRound, Calendar, ChevronRight, Trash2, Plus, Save, LogOut, Settings, ShieldCheck, RefreshCw, CloudUpload, Sparkles, Database, CheckCircle2, Lock, FileText, Link as LinkIcon, UserPlus, Eye, EyeOff } from 'lucide-react';
-import { UserRole } from '../types';
+import { UserRole } from '../../types';
 interface ProfileProps {
   user: {
     name: string;

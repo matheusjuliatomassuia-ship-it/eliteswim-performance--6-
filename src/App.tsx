@@ -92,138 +92,156 @@ const App: React.FC = () => {
   const [managedWorkouts, setManagedWorkouts] = useState<WorkoutDefinition[]>(MOCK_WORKOUT_TYPES);
 
   // ─── CARREGAR DADOS DO SUPABASE após login ───────────────────────────────────
-  const loadUserData = useCallback(async (uid: string, role: UserRole, coachMail?: string) => {
-    setIsLoadingData(true);
-    console.log('[EliteSwim] Carregando dados do Supabase...');
+ const loadUserData = useCallback(async (uid: string, role: UserRole, coachMail?: string) => {
+  setIsLoadingData(true);
+  console.log('[EliteSwim] Carregando dados do Supabase...');
 
-    try {
-      if (role === 'Athlete') {
-        // ── Atleta: carrega seus próprios dados ──
+  try {
+    if (role === 'Athlete') {
+      // ── Atleta: carrega seus próprios dados ──
+      const [
+        savedMetrics,
+        savedTimes,
+        savedPbRecords,
+        savedMeetRecords,
+        savedBody,
+        savedGymPlans,
+        savedGymLogs,
+        savedPlans,
+      ] = await Promise.all([
+        loadFromSupabase(uid, COLLECTIONS.METRICS),
+        loadFromSupabase(uid, COLLECTIONS.TIMES),
+        loadFromSupabase(uid, COLLECTIONS.PB_RECORDS),
+        loadFromSupabase(uid, COLLECTIONS.MEET_RECORDS),
+        loadFromSupabase(uid, COLLECTIONS.BODY),
+        loadFromSupabase(uid, COLLECTIONS.GYM_PLANS),
+        loadFromSupabase(uid, COLLECTIONS.GYM_LOGS),
+        loadFromSupabase(uid, COLLECTIONS.PLANS),
+      ]);
+
+      if (savedMetrics) setMetrics(savedMetrics); else setMetrics(MOCK_METRICS);
+      if (savedTimes) setTimes(savedTimes); else setTimes(MOCK_TIMES);
+      if (savedPbRecords) setPbRecords(savedPbRecords); else setPbRecords({});
+      if (savedMeetRecords) setMeetRecords(savedMeetRecords); else setMeetRecords([]);
+      if (savedBody) setBodyData(savedBody); else setBodyData(MOCK_BODY);
+      if (savedGymPlans) setGymPlans(savedGymPlans); else setGymPlans([]);
+      if (savedGymLogs) setGymLogs(savedGymLogs); else setGymLogs([]);
+      if (savedPlans) setPlannedSessions(savedPlans); else setPlannedSessions(MOCK_PLANS);
+
+      // ── AGORA: Se tem coach, carrega dados DO COACH ──
+      if (coachMail) {
+        // Constrói o UID do coach CORRETAMENTE
+        const coachId = coachMail.toLowerCase() === 'felippesimoes212@gmail.com' 
+          ? 'coach_felippe' 
+          : 'coach_' + coachMail.toLowerCase().replace(/[.@]/g, '_');
+
+        console.log(`[EliteSwim] Carregando dados do coach: ${coachId}`);
+
         const [
-          savedMetrics,
-          savedTimes,
-          savedPbRecords,
-          savedMeetRecords,
-          savedBody,
-          savedGymPlans,
-          savedGymLogs,
-          savedPlans,
-          savedCompetitions,
-          savedStrategies,
-          savedAssessments,
-          savedBiomechanics,
+          coachCompetitions,
+          coachStrategies,
+          coachAssessments,
+          coachBiomechanics,
+          coachResources,
         ] = await Promise.all([
-          loadFromSupabase(uid, COLLECTIONS.METRICS),
-          loadFromSupabase(uid, COLLECTIONS.TIMES),
-          loadFromSupabase(uid, COLLECTIONS.PB_RECORDS),
-          loadFromSupabase(uid, COLLECTIONS.MEET_RECORDS),
-          loadFromSupabase(uid, COLLECTIONS.BODY),
-          loadFromSupabase(uid, COLLECTIONS.GYM_PLANS),
-          loadFromSupabase(uid, COLLECTIONS.GYM_LOGS),
-          loadFromSupabase(uid, COLLECTIONS.PLANS),
-          loadFromSupabase(uid, COLLECTIONS.COMPETITIONS),
-          loadFromSupabase(uid, COLLECTIONS.STRATEGIES),
-          loadFromSupabase(uid, COLLECTIONS.ASSESSMENTS),
-          loadFromSupabase(uid, COLLECTIONS.BIOMECHANICS),
+          loadFromSupabase(coachId, COLLECTIONS.COMPETITIONS),
+          loadFromSupabase(coachId, COLLECTIONS.STRATEGIES),
+          loadFromSupabase(coachId, COLLECTIONS.ASSESSMENTS),
+          loadFromSupabase(coachId, COLLECTIONS.BIOMECHANICS),
+          loadFromSupabase(coachId, COLLECTIONS.RESOURCES),
         ]);
 
-        if (savedMetrics) setMetrics(savedMetrics); else setMetrics(MOCK_METRICS);
-        if (savedTimes) setTimes(savedTimes); else setTimes(MOCK_TIMES);
-        if (savedPbRecords) setPbRecords(savedPbRecords); else setPbRecords({});
-        if (savedMeetRecords) setMeetRecords(savedMeetRecords); else setMeetRecords([]);
-        if (savedBody) setBodyData(savedBody); else setBodyData(MOCK_BODY);
-        if (savedGymPlans) setGymPlans(savedGymPlans); else setGymPlans([]);
-        if (savedGymLogs) setGymLogs(savedGymLogs); else setGymLogs([]);
-        if (savedPlans) setPlannedSessions(savedPlans); else setPlannedSessions(MOCK_PLANS);
-        if (savedCompetitions) setCompetitions(savedCompetitions); else setCompetitions(MOCK_COMPETITIONS);
-        if (savedStrategies) setStrategies(savedStrategies); else setStrategies(MOCK_STRATEGIES);
-        if (savedAssessments) setAssessments(savedAssessments); else setAssessments(MOCK_ASSESSMENTS);
-        if (savedBiomechanics) setBiomechanics(savedBiomechanics); else setBiomechanics(MOCK_BIOMECHANICS);
-
-      } else {
-        // ── Treinador: carrega seus dados + dados dos atletas ──
-        const [
-          savedCompetitions,
-          savedStrategies,
-          savedGroups,
-          savedWorkouts,
-          savedResources,
-          savedPlans,
-          savedMeetRecords,
-        ] = await Promise.all([
-          loadFromSupabase(uid, COLLECTIONS.COMPETITIONS),
-          loadFromSupabase(uid, COLLECTIONS.STRATEGIES),
-          loadFromSupabase(uid, COLLECTIONS.MANAGED_GROUPS),
-          loadFromSupabase(uid, COLLECTIONS.MANAGED_WORKOUTS),
-          loadFromSupabase(uid, COLLECTIONS.RESOURCES),
-          loadFromSupabase(uid, COLLECTIONS.PLANS),
-          loadFromSupabase(uid, COLLECTIONS.MEET_RECORDS),
-        ]);
-
-        if (savedCompetitions) setCompetitions(savedCompetitions);
-        if (savedStrategies) setStrategies(savedStrategies);
-        if (savedGroups) setManagedGroups(savedGroups);
-        if (savedWorkouts) setManagedWorkouts(savedWorkouts);
-        if (savedResources) setResources(savedResources);
-        if (savedPlans) setPlannedSessions(savedPlans);
-        if (savedMeetRecords) setMeetRecords(savedMeetRecords);
-
-        // Busca atletas vinculados ao treinador pelo email
-        const athleteProfiles = await loadAthletesByCoach(coachMail || '');
-        console.log(`[EliteSwim] Atletas encontrados: ${athleteProfiles.length}`);
-
-        if (athleteProfiles.length > 0) {
-          // Monta lista de AthleteProfile para o treinador
-          const athleteList: AthleteProfile[] = athleteProfiles.map((p: any) => ({
-            id: p.id,
-            name: p.name,
-            email: p.email,
-            coachEmail: p.coachEmail,
-            groupId: p.category || 'Geral',
-            birthDate: p.birthDate || '',
-            gender: p.gender || 'M',
-            photoUrl: p.photoUrl,
-            active: true,
-          }));
-          setManagedAthletes(prev => {
-            // Merge: mantém atletas mock + adiciona/atualiza atletas reais
-            const ids = new Set(athleteList.map(a => a.id));
-            const filtered = prev.filter(a => !ids.has(a.id));
-            return [...filtered, ...athleteList];
-          });
-
-          // Carrega métricas e tempos de todos os atletas
-          const athleteIds = athleteProfiles.map((p: any) => p.id);
-          const [allMetrics, allTimes, allPbRows, allAssessments, allBiomechanics, allBody] = await Promise.all([
-  loadAllAthletesData(athleteIds, COLLECTIONS.METRICS),
-  loadAllAthletesData(athleteIds, COLLECTIONS.TIMES),
-  Promise.all(athleteIds.map((id: string) => loadFromSupabase(id, COLLECTIONS.PB_RECORDS).then((d: any) => ({ id, data: d })))),
-  loadAllAthletesData(athleteIds, COLLECTIONS.ASSESSMENTS),
-  loadAllAthletesData(athleteIds, COLLECTIONS.BIOMECHANICS),
-  loadAllAthletesData(athleteIds, COLLECTIONS.BODY),
-]);
-
-          if (allMetrics.length > 0) setMetrics(allMetrics);
-          if (allTimes.length > 0) setTimes(allTimes);
-          if (allAssessments.length > 0) setAssessments(allAssessments);
-          if (allBiomechanics.length > 0) setBiomechanics(allBiomechanics);
-          if (allBody.length > 0) setBodyData(allBody);
-
-          // Merge pbRecords de todos os atletas
-          const mergedPb: Record<string, Record<string, Record<string, string>>> = {};
-          (allPbRows as { id: string; data: any }[]).forEach(({ id, data }) => {
-            if (data) mergedPb[id] = data;
-          });
-          if (Object.keys(mergedPb).length > 0) setPbRecords(mergedPb);
-        }
+        if (coachCompetitions) setCompetitions(coachCompetitions);
+        if (coachStrategies) setStrategies(coachStrategies);
+        if (coachAssessments) setAssessments(coachAssessments);
+        if (coachBiomechanics) setBiomechanics(coachBiomechanics);
+        if (coachResources) setResources(coachResources);
       }
-    } catch (e) {
-      console.error('[EliteSwim] Erro ao carregar dados:', e);
-    } finally {
-      setIsLoadingData(false);
-      console.log('[EliteSwim] Dados carregados!');
+
+    } else {
+      // ── Treinador: carrega seus dados + dados dos atletas ──
+      const [
+        savedCompetitions,
+        savedStrategies,
+        savedGroups,
+        savedWorkouts,
+        savedResources,
+        savedPlans,
+        savedMeetRecords,
+      ] = await Promise.all([
+        loadFromSupabase(uid, COLLECTIONS.COMPETITIONS),
+        loadFromSupabase(uid, COLLECTIONS.STRATEGIES),
+        loadFromSupabase(uid, COLLECTIONS.MANAGED_GROUPS),
+        loadFromSupabase(uid, COLLECTIONS.MANAGED_WORKOUTS),
+        loadFromSupabase(uid, COLLECTIONS.RESOURCES),
+        loadFromSupabase(uid, COLLECTIONS.PLANS),
+        loadFromSupabase(uid, COLLECTIONS.MEET_RECORDS),
+      ]);
+
+      if (savedCompetitions) setCompetitions(savedCompetitions);
+      if (savedStrategies) setStrategies(savedStrategies);
+      if (savedGroups) setManagedGroups(savedGroups);
+      if (savedWorkouts) setManagedWorkouts(savedWorkouts);
+      if (savedResources) setResources(savedResources);
+      if (savedPlans) setPlannedSessions(savedPlans);
+      if (savedMeetRecords) setMeetRecords(savedMeetRecords);
+
+      // Busca atletas vinculados ao treinador pelo email
+      const athleteProfiles = await loadAthletesByCoach(coachMail || '');
+      console.log(`[EliteSwim] Atletas encontrados: ${athleteProfiles.length}`);
+
+      if (athleteProfiles.length > 0) {
+        // Monta lista de AthleteProfile para o treinador
+        const athleteList: AthleteProfile[] = athleteProfiles.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          email: p.email,
+          coachEmail: p.coachEmail,
+          groupId: p.category || 'Geral',
+          birthDate: p.birthDate || '',
+          gender: p.gender || 'M',
+          photoUrl: p.photoUrl,
+          active: true,
+        }));
+        setManagedAthletes(prev => {
+          // Merge: mantém atletas mock + adiciona/atualiza atletas reais
+          const ids = new Set(athleteList.map(a => a.id));
+          const filtered = prev.filter(a => !ids.has(a.id));
+          return [...filtered, ...athleteList];
+        });
+
+        // Carrega métricas e tempos de todos os atletas
+        const athleteIds = athleteProfiles.map((p: any) => p.id);
+        const [allMetrics, allTimes, allPbRows, allAssessments, allBiomechanics, allBody] = await Promise.all([
+          loadAllAthletesData(athleteIds, COLLECTIONS.METRICS),
+          loadAllAthletesData(athleteIds, COLLECTIONS.TIMES),
+          Promise.all(athleteIds.map((id: string) => loadFromSupabase(id, COLLECTIONS.PB_RECORDS).then((d: any) => ({ id, data: d })))),
+          loadAllAthletesData(athleteIds, COLLECTIONS.ASSESSMENTS),
+          loadAllAthletesData(athleteIds, COLLECTIONS.BIOMECHANICS),
+          loadAllAthletesData(athleteIds, COLLECTIONS.BODY),
+        ]);
+
+        if (allMetrics.length > 0) setMetrics(allMetrics);
+        if (allTimes.length > 0) setTimes(allTimes);
+        if (allAssessments.length > 0) setAssessments(allAssessments);
+        if (allBiomechanics.length > 0) setBiomechanics(allBiomechanics);
+        if (allBody.length > 0) setBodyData(allBody);
+
+        // Merge pbRecords de todos os atletas
+        const mergedPb: Record<string, Record<string, Record<string, string>>> = {};
+        (allPbRows as { id: string; data: any }[]).forEach(({ id, data }) => {
+          if (data) mergedPb[id] = data;
+        });
+        if (Object.keys(mergedPb).length > 0) setPbRecords(mergedPb);
+      }
     }
-  }, []);
+  } catch (e) {
+    console.error('[EliteSwim] Erro ao carregar dados:', e);
+  } finally {
+    setIsLoadingData(false);
+    console.log('[EliteSwim] Dados carregados!');
+  }
+}, []);
 
   // ─── AUTO-SAVE: persiste mudanças no Supabase ────────────────────────────────
   // Atleta salva com seu próprio userId
@@ -326,7 +344,7 @@ const App: React.FC = () => {
           setIsAuthenticated(true);
           setCurrentTab(user.role === 'Coach' ? 'dashboard' : 'log');
           // Carrega dados do Supabase
-          loadUserData(user.id, user.role, user.email);
+          loadUserData(user.id, user.role, user.coachEmail);
         }
       } catch (e) { console.error(e); }
     }
@@ -427,64 +445,76 @@ const App: React.FC = () => {
     });
   };
 
-  const handleLogin = (email: string, role: UserRole, name?: string, password?: string) => {
-    const isCoachUser = email.toLowerCase() === 'felippesimoes212@gmail.com';
-    const isAthleteUser = email.toLowerCase() === 'matheusjuliatomassuia@gmail.com';
+  const handleLogin = async (email: string, role: UserRole, name?: string, password?: string) => {
+  const isCoachUser = email.toLowerCase() === 'felippesimoes212@gmail.com';
+  const isAthleteUser = email.toLowerCase() === 'matheusjuliatomassuia@gmail.com';
 
-    const accountsRaw = localStorage.getItem('eliteSwim_accounts');
-    const accounts = accountsRaw ? JSON.parse(accountsRaw) : [];
-    const existingAccount = accounts.find((a: any) => a.email.toLowerCase() === email.toLowerCase());
+  const accountsRaw = localStorage.getItem('eliteSwim_accounts');
+  const accounts = accountsRaw ? JSON.parse(accountsRaw) : [];
+  const existingAccount = accounts.find((a: any) => a.email.toLowerCase() === email.toLowerCase());
 
-    let finalId = existingAccount?.id;
-    if (!finalId) {
-      if (isCoachUser) finalId = 'coach_felippe';
-      else if (isAthleteUser) finalId = 'athlete_matheus';
-      else finalId = (role === 'Coach' ? 'coach_' : 'user_') + Date.now();
-    }
+  let finalId = existingAccount?.id;
+  if (!finalId) {
+    if (isCoachUser) finalId = 'coach_felippe';
+    else if (isAthleteUser) finalId = 'athlete_matheus';
+    else finalId = (role === 'Coach' ? 'coach_' : 'user_') + Date.now();
+  }
 
-    let finalName = name || existingAccount?.name || (isCoachUser ? 'Felippe Simões' : (isAthleteUser ? 'Matheus Juliato' : 'Novo Usuário'));
+  let finalName = name || existingAccount?.name || (isCoachUser ? 'Felippe Simões' : (isAthleteUser ? 'Matheus Juliato' : 'Novo Usuário'));
 
-    const newUser = existingAccount
-      ? { ...existingAccount, password: password || existingAccount.password }
-      : {
-          id: finalId,
-          email,
-          password: password || '',
-          name: finalName,
-          role,
-          club: (isCoachUser || isAthleteUser) ? 'CLUBE ESPERIA' : '',
-          category: isCoachUser ? 'TREINADOR' : (isAthleteUser ? 'juvenil2' : ''),
-          birthDate: isAthleteUser ? '2010-07-12' : '',
-          gender: 'M',
-          state: (isCoachUser || isAthleteUser) ? 'SÃO PAULO' : '',
-          country: (isCoachUser || isAthleteUser) ? 'BR' : '',
-          coachEmail: isAthleteUser ? 'felippesimoes212@gmail.com' : undefined,
-        };
+  const newUser = existingAccount
+    ? { ...existingAccount, password: password || existingAccount.password }
+    : {
+        id: finalId,
+        email,
+        password: password || '',
+        name: finalName,
+        role,
+        club: (isCoachUser || isAthleteUser) ? 'CLUBE ESPERIA' : '',
+        category: isCoachUser ? 'TREINADOR' : (isAthleteUser ? 'juvenil2' : ''),
+        birthDate: isAthleteUser ? '2010-07-12' : '',
+        gender: 'M',
+        state: (isCoachUser || isAthleteUser) ? 'SÃO PAULO' : '',
+        country: (isCoachUser || isAthleteUser) ? 'BR' : '',
+        coachEmail: isAthleteUser ? 'felippesimoes212@gmail.com' : undefined,
+      };
 
-    localStorage.setItem('eliteSwim_session', JSON.stringify(newUser));
-    if (!existingAccount) {
-      accounts.push(newUser);
-      localStorage.setItem('eliteSwim_accounts', JSON.stringify(accounts));
-    }
+  localStorage.setItem('eliteSwim_session', JSON.stringify(newUser));
+  if (!existingAccount) {
+    accounts.push(newUser);
+    localStorage.setItem('eliteSwim_accounts', JSON.stringify(accounts));
+  }
 
-    setUserEmail(newUser.email);
-    setUserPassword(newUser.password);
-    setUserName(newUser.name);
-    setUserRole(newUser.role);
-    setUserId(newUser.id);
-    setUserClub(newUser.club);
-    setUserCategory(newUser.category);
-    setUserBirthDate(newUser.birthDate);
-    setUserState(newUser.state);
-    setUserCountry(newUser.country);
-    setCoachEmail(newUser.coachEmail);
-    setIsAuthenticated(true);
-    setCurrentTab(role === 'Coach' ? 'dashboard' : 'log');
+  setUserEmail(newUser.email);
+  setUserPassword(newUser.password);
+  setUserName(newUser.name);
+  setUserRole(newUser.role);
+  setUserId(newUser.id);
+  setUserClub(newUser.club);
+  setUserCategory(newUser.category);
+  setUserBirthDate(newUser.birthDate);
+  setUserState(newUser.state);
+  setUserCountry(newUser.country);
+  setCoachEmail(newUser.coachEmail);
+  setIsAuthenticated(true);
+  setCurrentTab(role === 'Coach' ? 'dashboard' : 'log');
 
-    // Salva perfil no Supabase e carrega dados
-    saveUserProfile(newUser);
-    loadUserData(newUser.id, newUser.role, newUser.email);
-  };
+  // Salva perfil no Supabase e carrega dados
+  saveUserProfile(newUser);
+
+  // Se é coach, salva os dados mock no Supabase ANTES de carregar
+if (newUser.role === 'Coach') {
+  console.log('[EliteSwim] Salvando dados do coach no Supabase...');
+  await saveToSupabase(newUser.id, COLLECTIONS.STRATEGIES, MOCK_STRATEGIES);
+  await saveToSupabase(newUser.id, COLLECTIONS.COMPETITIONS, MOCK_COMPETITIONS);
+  await saveToSupabase(newUser.id, COLLECTIONS.BIOMECHANICS, MOCK_BIOMECHANICS);
+  await saveToSupabase(newUser.id, COLLECTIONS.RESOURCES, MOCK_RESOURCES);
+  await saveToSupabase(newUser.id, COLLECTIONS.PLANS, MOCK_PLANS);  // ← ADICIONA AQUI
+  console.log('[EliteSwim] Dados do coach salvos!');
+}
+
+  loadUserData(newUser.id, newUser.role, newUser.coachEmail);
+};
 
   const handleLogout = () => {
     localStorage.removeItem('eliteSwim_session');
